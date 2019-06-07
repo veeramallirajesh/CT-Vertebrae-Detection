@@ -8,6 +8,8 @@ import shutil
 import os
 import pandas as pd
 from collections import OrderedDict
+import random
+import numpy as np
 
 
 df = pd.read_excel(config.FILE_NAME)
@@ -17,8 +19,10 @@ df_list = list(OrderedDict.fromkeys(df['Filename']))
 # for split in (config.TRAIN, config.TEST, config.VAL):
 # 	# grab all image paths in the current split
 # 	print("[INFO] processing '{} split'...".format(split))
+i = 0
 p = os.path.sep.join([config.ORIG_INPUT_DATASET])
 imagePaths = list(paths.list_images(p))
+random.shuffle(imagePaths)
 
 # loop over the image paths
 for imagePath in imagePaths:
@@ -27,7 +31,10 @@ for imagePath in imagePaths:
 	#label = config.CLASSES[int(filename.split("_")[0])]
 
 	# construct the path to the output directory
-	dirPath = os.path.sep.join([config.BASE_PATH, config.TRAIN])
+	if i < int(np.ceil(len(df_list) * 0.2)):
+    		dirPath = os.path.sep.join([config.BASE_PATH, config.TEST])
+	else:
+    		dirPath = os.path.sep.join([config.BASE_PATH, config.TRAIN])
 
 	# if the output directory does not exist, create it
 	if not os.path.exists(dirPath):
@@ -37,3 +44,5 @@ for imagePath in imagePaths:
 	if filename in df_list:
 		p = os.path.sep.join([dirPath, filename])
 		shutil.copy2(imagePath, p)
+	
+	i += 1
