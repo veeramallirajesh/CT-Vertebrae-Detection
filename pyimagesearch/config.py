@@ -16,7 +16,7 @@ TEST = "evaluation"
 VAL = "validation"
 
 # initialize the list of class label names
-CLASSES = ["non_food", "food"]
+CLASSES = ["Fractured", "Normal"]
 
 # set the batch size
 BATCH_SIZE = 32

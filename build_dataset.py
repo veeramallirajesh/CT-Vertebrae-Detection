@@ -13,7 +13,18 @@ import numpy as np
 
 
 df = pd.read_excel(config.FILE_NAME)
+df_initial_list = list(df['Filename'])
 df_list = list(OrderedDict.fromkeys(df['Filename']))
+dict = {}
+
+for i, j in enumerate(df_initial_list):
+    if j in dict:
+        if df['Differential Diagnosis Category'][i] == "Normal":
+            continue
+        else:
+            dict[j] = df['Differential Diagnosis Category'][i]
+    else:
+        dict[j] = df['Differential Diagnosis Category'][i]
 
 # # loop over the data splits
 # for split in (config.TRAIN, config.TEST, config.VAL):
@@ -28,13 +39,13 @@ random.shuffle(imagePaths)
 for imagePath in imagePaths:
 	# extract class label from the filename
 	filename = imagePath.split(os.path.sep)[-1]
-	#label = config.CLASSES[int(filename.split("_")[0])]
+	label = config.CLASSES[dict[filename] if "Normal" == 1 else 0]
 
 	# construct the path to the output directory
-	if i < int(np.ceil(len(df_list) * 0.2)):
-    		dirPath = os.path.sep.join([config.BASE_PATH, config.TEST])
+	if i < int(np.ceil(len(df_list) * 0.4)):
+    		dirPath = os.path.sep.join([config.BASE_PATH, config.TEST, label])
 	else:
-    		dirPath = os.path.sep.join([config.BASE_PATH, config.TRAIN])
+    		dirPath = os.path.sep.join([config.BASE_PATH, config.TRAIN, label])
 
 	# if the output directory does not exist, create it
 	if not os.path.exists(dirPath):
