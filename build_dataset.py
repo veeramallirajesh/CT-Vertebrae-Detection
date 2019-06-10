@@ -39,20 +39,21 @@ random.shuffle(imagePaths)
 for imagePath in imagePaths:
 	# extract class label from the filename
 	filename = imagePath.split(os.path.sep)[-1]
-	label = config.CLASSES[1 if dict[filename] == "Normal" else 0]
-
-	# construct the path to the output directory
-	if i < int(np.ceil(len(df_list) * 0.4)):
-    		dirPath = os.path.sep.join([config.BASE_PATH, config.TEST, label])
-	else:
-    		dirPath = os.path.sep.join([config.BASE_PATH, config.TRAIN, label])
-
-	# if the output directory does not exist, create it
-	if not os.path.exists(dirPath):
-		os.makedirs(dirPath)
-
-	# construct the path to the output image file and copy it
 	if filename in df_list:
+		label = config.CLASSES[1 if dict[filename] == "Normal" else 0]
+
+		# construct the path to the output directory
+		if i < int(np.ceil(len(df_list) * 0.4)):
+				dirPath = os.path.sep.join([config.BASE_PATH, config.TEST, label])
+		else:
+				dirPath = os.path.sep.join([config.BASE_PATH, config.TRAIN, label])
+
+		# if the output directory does not exist, create it
+		if not os.path.exists(dirPath):
+			os.makedirs(dirPath)
+
+		# construct the path to the output image file and copy it
+		
 		p = os.path.sep.join([dirPath, filename])
 		shutil.copy2(imagePath, p)
 	
