@@ -39,7 +39,7 @@ random.shuffle(imagePaths)
 for imagePath in imagePaths:
 	# extract class label from the filename
 	filename = imagePath.split(os.path.sep)[-1]
-	label = config.CLASSES[dict[filename] if "Normal" == 1 else 0]
+	label = config.CLASSES[1 if dict[filename] == "Normal" else 0]
 
 	# construct the path to the output directory
 	if i < int(np.ceil(len(df_list) * 0.4)):
