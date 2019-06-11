@@ -122,7 +122,7 @@ plt.plot(epochs, loss, 'b', label='Training loss')
 plt.title('Training loss')
 plt.legend()
 
-plt.show()
+plt.savefig('result.png')
 
 
 print("[INFO] evaluating network...")
