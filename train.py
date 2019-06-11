@@ -4,14 +4,13 @@
 # import the necessary packages
 from keras.models import Sequential
 from keras.layers.core import Dense
-from keras.optimizers import SGD
+from keras.optimizers import Adam
 from keras.utils import to_categorical
 from sklearn.metrics import classification_report
 from pyimagesearch import config
 import numpy as np
 import pickle
 import os
-import pandas as pd
 
 def csv_feature_generator(inputPath, bs, numClasses, mode="train"):
 	# open the input file for reading
@@ -81,12 +80,12 @@ testGen = csv_feature_generator(testPath, config.BATCH_SIZE,
 
 # define our simple neural network
 model = Sequential()
-model.add(Dense(256, input_shape=(7 * 7 * 2048,), activation="relu"))
-model.add(Dense(16, activation="relu"))
+model.add(Dense(128, input_shape=(7 * 7 * 512,), activation="relu"))
+model.add(Dense(8, activation="relu"))
 model.add(Dense(len(config.CLASSES), activation="softmax"))
 
 # compile the model
-opt = SGD(lr=1e-3, momentum=0.9, decay=1e-3 / 25)
+opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 model.compile(loss="binary_crossentropy", optimizer=opt,
 	metrics=["accuracy"])
 
@@ -130,25 +129,6 @@ print("[INFO] evaluating network...")
 predIdxs = model.predict_generator(testGen,
 	steps=(totalTest //config.BATCH_SIZE) + 1)
 predIdxs = np.argmax(predIdxs, axis=1)
-report = classification_report(testLabels, predIdxs,
-	target_names=le.classes_)
-print(report)
-
-def classifaction_report_csv(report):
-    report_data = []
-    lines = report.split('\n')
-    for line in lines[2:-3]:
-        row = {}
-        row_data = line.split('      ')
-        row['class'] = row_data[0]
-        row['precision'] = float(row_data[1])
-        row['recall'] = float(row_data[2])
-        row['f1_score'] = float(row_data[3])
-        row['support'] = float(row_data[4])
-        report_data.append(row)
-    dataframe = pd.DataFrame.from_dict(report_data)
-    dataframe.to_csv('report.csv', index = False)
-
-
-classifaction_report_csv(report)
+print(classification_report(testLabels, predIdxs,
+	target_names=le.classes_))
 
