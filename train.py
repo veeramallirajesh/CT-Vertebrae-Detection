@@ -11,6 +11,7 @@ from pyimagesearch import config
 import numpy as np
 import pickle
 import os
+import pandas as pd
 
 def csv_feature_generator(inputPath, bs, numClasses, mode="train"):
 	# open the input file for reading
@@ -132,5 +133,22 @@ predIdxs = np.argmax(predIdxs, axis=1)
 report = classification_report(testLabels, predIdxs,
 	target_names=le.classes_)
 print(report)
+
+def classifaction_report_csv(report):
+    report_data = []
+    lines = report.split('\n')
+    for line in lines[2:-3]:
+        row = {}
+        row_data = line.split('      ')
+        row['class'] = row_data[0]
+        row['precision'] = float(row_data[1])
+        row['recall'] = float(row_data[2])
+        row['f1_score'] = float(row_data[3])
+        row['support'] = float(row_data[4])
+        report_data.append(row)
+    dataframe = pd.DataFrame.from_dict(report_data)
+    dataframe.to_csv('report.csv', index = False)
+
+
 classifaction_report_csv(report)
 
