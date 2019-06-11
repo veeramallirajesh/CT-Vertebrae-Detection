@@ -4,7 +4,7 @@
 # import the necessary packages
 from keras.models import Sequential
 from keras.layers.core import Dense
-from keras.optimizers import Adam
+from keras.optimizers import SGD
 from keras.utils import to_categorical
 from sklearn.metrics import classification_report
 from pyimagesearch import config
@@ -85,7 +85,7 @@ model.add(Dense(16, activation="relu"))
 model.add(Dense(len(config.CLASSES), activation="softmax"))
 
 # compile the model
-opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+opt = SGD(lr=1e-3, momentum=0.9, decay=1e-3 / 25)
 model.compile(loss="binary_crossentropy", optimizer=opt,
 	metrics=["accuracy"])
 
