@@ -3,7 +3,7 @@
 
 # import the necessary packages
 from sklearn.preprocessing import LabelEncoder
-from keras.applications import VGG16
+from keras.applications import ResNet50
 from keras.applications import imagenet_utils
 from keras.preprocessing.image import img_to_array
 from keras.preprocessing.image import load_img
@@ -16,7 +16,7 @@ import os
 
 # load the VGG16 network and initialize the label encoder
 print("[INFO] loading network...")
-model = VGG16(weights="imagenet", include_top=False)
+model = ResNet50(weights="imagenet", include_top=False)
 le = None
 
 # loop over the data splits
@@ -73,7 +73,7 @@ for split in (config.TRAIN, config.TEST):
 		# flattened volume
 		batchImages = np.vstack(batchImages)
 		features = model.predict(batchImages, batch_size=config.BATCH_SIZE)
-		features = features.reshape((features.shape[0], 7 * 7 * 512))
+		features = features.reshape((features.shape[0], 7 * 7 * 2048))
 
 		# loop over the class labels and extracted features
 		for (label, vec) in zip(batchLabels, features):
