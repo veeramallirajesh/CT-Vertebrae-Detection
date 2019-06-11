@@ -19,7 +19,7 @@ VAL = "validation"
 CLASSES = ["Fractured", "Normal"]
 
 # set the batch size
-BATCH_SIZE = 4
+BATCH_SIZE = 8
 
 # initialize the label encoder file path and the output directory to
 # where the extracted features (in CSV file format) will be stored

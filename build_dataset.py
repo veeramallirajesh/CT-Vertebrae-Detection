@@ -43,7 +43,7 @@ for imagePath in imagePaths:
 		label = config.CLASSES[1 if dict[filename] == "Normal" else 0]
 
 		# construct the path to the output directory
-		if i < int(np.ceil(len(df_list) * 0.4)):
+		if i < int(np.ceil(len(df_list) * 0.35)):
 				dirPath = os.path.sep.join([config.BASE_PATH, config.TEST, label])
 		else:
 				dirPath = os.path.sep.join([config.BASE_PATH, config.TRAIN, label])
