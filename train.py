@@ -85,7 +85,7 @@ model.add(Dense(8, activation="relu"))
 model.add(Dense(len(config.CLASSES), activation="softmax"))
 
 # compile the model
-opt = Adam(r=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 model.compile(loss="binary_crossentropy", optimizer=opt,
 	metrics=["accuracy"])
 
