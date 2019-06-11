@@ -80,8 +80,8 @@ testGen = csv_feature_generator(testPath, config.BATCH_SIZE,
 
 # define our simple neural network
 model = Sequential()
-model.add(Dense(128, input_shape=(7 * 7 * 512,), activation="relu"))
-model.add(Dense(8, activation="relu"))
+model.add(Dense(256, input_shape=(7 * 7 * 2048,), activation="relu"))
+model.add(Dense(16, activation="relu"))
 model.add(Dense(len(config.CLASSES), activation="softmax"))
 
 # compile the model
