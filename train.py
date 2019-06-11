@@ -4,7 +4,7 @@
 # import the necessary packages
 from keras.models import Sequential
 from keras.layers.core import Dense
-from keras.optimizers import SGD
+from keras.optimizers import Adam
 from keras.utils import to_categorical
 from sklearn.metrics import classification_report
 from pyimagesearch import config
@@ -85,7 +85,7 @@ model.add(Dense(8, activation="relu"))
 model.add(Dense(len(config.CLASSES), activation="softmax"))
 
 # compile the model
-opt = SGD(lr=1e-3, momentum=0.9, decay=1e-3 / 25)
+opt = Adam(r=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 model.compile(loss="binary_crossentropy", optimizer=opt,
 	metrics=["accuracy"])
 
@@ -94,16 +94,41 @@ print("[INFO] training simple network...")
 H = model.fit_generator(
 	trainGen,
 	steps_per_epoch=totalTrain // config.BATCH_SIZE,
-	validation_data=None,
-	validation_steps=None, #totalVal // config.BATCH_SIZE,
+	# validation_data=None,
+	# validation_steps=None, #totalVal // config.BATCH_SIZE,
 	epochs=25)
 
 # make predictions on the testing images, finding the index of the
 # label with the corresponding largest predicted probability, then
 # show a nicely formatted classification report
+
+#lets plot the train and val curve
+import matplotlib.pyplot as plt
+
+#get the details form the history object
+acc = H.history['acc']
+loss = H.history['loss']
+
+epochs = range(1, len(acc) + 1)
+
+#Train and validation accuracy
+plt.plot(epochs, acc, 'b', label='Training accurarcy')
+plt.title('Training accurarcy')
+plt.legend()
+
+plt.figure()
+#Train and validation loss
+plt.plot(epochs, loss, 'b', label='Training loss')
+plt.title('Training loss')
+plt.legend()
+
+plt.show()
+
+
 print("[INFO] evaluating network...")
 predIdxs = model.predict_generator(testGen,
 	steps=(totalTest //config.BATCH_SIZE) + 1)
 predIdxs = np.argmax(predIdxs, axis=1)
 print(classification_report(testLabels, predIdxs,
 	target_names=le.classes_))
+
