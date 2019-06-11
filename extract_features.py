@@ -20,7 +20,7 @@ model = VGG16(weights="imagenet", include_top=False)
 le = None
 
 # loop over the data splits
-for split in (config.TRAIN, config.TEST, config.VAL):
+for split in (config.TRAIN, config.TEST):
 	# grab all image paths in the current split
 	print("[INFO] processing '{} split'...".format(split))
 	p = os.path.sep.join([config.BASE_PATH, split])
