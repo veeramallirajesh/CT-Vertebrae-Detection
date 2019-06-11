@@ -129,6 +129,8 @@ print("[INFO] evaluating network...")
 predIdxs = model.predict_generator(testGen,
 	steps=(totalTest //config.BATCH_SIZE) + 1)
 predIdxs = np.argmax(predIdxs, axis=1)
-print(classification_report(testLabels, predIdxs,
-	target_names=le.classes_))
+report = classification_report(testLabels, predIdxs,
+	target_names=le.classes_)
+print(report)
+classifaction_report_csv(report)
 
