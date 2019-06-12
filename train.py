@@ -81,8 +81,8 @@ testGen = csv_feature_generator(testPath, config.BATCH_SIZE,
 # define our simple neural network
 model = Sequential()
 model.add(Dense(128, input_shape=(7 * 7 * 512,), activation="relu"))
-model.add(Dense(8, activation="relu"))
-model.add(Dense(len(config.CLASSES), activation="softmax"))
+#model.add(Dense(8, activation="relu"))
+model.add(Dense(len(config.CLASSES), activation="softmax", kernel_initializer='zeros'))
 
 # compile the model
 opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
