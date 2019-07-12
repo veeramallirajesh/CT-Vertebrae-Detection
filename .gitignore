@@ -1,0 +1,15 @@
+.idea
+.cache
+material/DeepLesion/Images_png
+Images_nifti
+ct_dirs.py
+*.xlsx#
+*.xls#
+*.odp#
+logs/*.log
+logs/tensor_board
+*.bib
+img/generated/**/*.png
+__pycache__/
+shared
+img/final_predictions
