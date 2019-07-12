@@ -22,7 +22,7 @@ df = pd.read_excel('/spineteam/data/DiagBilanz_Fx_Status_Radiologist_20190604.xl
 df_list = list(OrderedDict.fromkeys(df['Filename']))
 
 out_dir = '/spineteam/data/tiff_patches'
-os.makedirs('/spineteam/data/tiff_patches/{}/'.format(out_dir), exist_ok=True)
+os.makedirs(out_dir, exist_ok=True)
 
 
 
